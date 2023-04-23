@@ -2,10 +2,21 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const http = require('http');
+const server = http.createServer(app);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+const { Server } = require("socket.io");
+
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+      }
+});
+
+io.on("connection", (socket) => {
+    socket.on('send_message', ({ sender, message }) => {
+        io.emit("receive_message", { sender, message });
+    });
+});
+
+server.listen(port);

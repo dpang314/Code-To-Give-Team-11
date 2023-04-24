@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Platform } from 'react-native';
+import { FlatList, KeyboardAvoidingView, StyleSheet, Text, Image, TextInput, View, Platform } from 'react-native';
 import { io } from "socket.io-client";
 import Constants from "expo-constants";
 import { useEffect, useState } from 'react';
@@ -33,6 +33,10 @@ export default function App() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
         <View style={styles.header}>
+        <Image
+        source={{ uri: 'https://wish.org/sites/default/files/styles/logo_large_default_1x/public/2020-09/MAW_Georgia_REV.png?itok=LUXDY-5M' }}
+        style={{ width: 230, height: 65 }}
+      />
           <Text style={styles.headerText}>Coordinator Name</Text>
         </View>
       <FlatList
@@ -48,7 +52,7 @@ export default function App() {
             </View>
           ) : (
             <View style={[styles.common, styles.receiver]}>
-              <Text style={styles.text}>
+              <Text style={styles.text2}>
                 {item.message}
               </Text>
             </View>
@@ -56,26 +60,32 @@ export default function App() {
           
         }</>)}
       />
+      <View
+      style={[{flex: 1}, {flexDirection: 'row'}, {justifyContent: 'space-between'}, {alignItems: 'stretch'}, {maxHeight: 40}]}>
       <TextInput 
         style={styles.input}
-        placeholder='Type Message'
+        placeholder='Enter a new message'
         onSubmitEditing={(event) => {
           socket.emit("send_message", { sender: socket.id, message: event.nativeEvent.text});
         }}
       />
+      <Text style={[styles.sendButton, {height: 40}, {flex: 1}, {alignItems: "center"}]}>Send</Text>
+      </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={[styles.buttons, {backgroundColor: '#DDFFEB'}]}>
+        <Text style={[styles.buttons, {backgroundColor: '#3F979B'}]}>
           Scan Document
         </Text>
-        <Text style={[styles.buttons, {backgroundColor: '#F8E2FF'}]}>
+        <Text style={[styles.buttons, {backgroundColor: '#C0EEF2'}]}>
           Call
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={[styles.buttons, {backgroundColor: '#F8E2FF'}]}>
+        <Text style={[styles.buttons, {backgroundColor: '#C0EEF2'}, {
+    borderBottomLeftRadius: 25}]}>
           Video Chat
         </Text>
-        <Text style={[styles.buttons, {backgroundColor: '#DDFFEB'}]}>
+        <Text style={[styles.buttons, {backgroundColor: '#3F979B'}, {
+    borderBottomRightRadius: 25}]}>
           View Calendar
         </Text>
       </View>
@@ -88,20 +98,35 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#3981C5',
+    backgroundImage: 'url(https://pbs.twimg.com/ext_tw_video_thumb/1580314918007570433/pu/img/QzU9Y69fVN6hxNXP?format=jpg&name=large)',
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20
   },
+  sendButton: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#ffffff',
+    paddingTop: 10,
+    fontWeight: 'bold',
+    fontSize: 16,
+    backgroundColor: "#6096B4",
+  },
   header: {
-    backgroundColor: '#F8E2FF',
+    backgroundColor: '#2B3467',
     alignItems: 'center',
     paddingBottom: 20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     paddingTop: 20,
     marginBottom: 10,
+    
   },
   headerText: {
     fontSize: 26,
-    fontWeight: 'bold'
+    marginTop: 7,
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
   container: {
     flex: 1,
@@ -112,14 +137,20 @@ const styles = StyleSheet.create({
     marginRight: 20,
     width: '100%',
     maxWidth: 600,
+    borderRadius: 50,
   },
   list: {
-    flex: 1
+    flex: 1,
+    borderRadius: 15,
   },
   input: {
     height: 40,
+    flex: 5,
     width: "100%",
-    borderWidth: 1,
+    borderWidth: 3,
+    borderColor: '#2B3467',
+    color: '#2B3467',
+    borderRadius: 3,
     padding: 10,
   },
   common: {
@@ -135,13 +166,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: 20,
     paddingRight: 20,
+    marginRight: 30,
+    marginTop: 10,
     paddingTop: 8,
     paddingBottom: 8,
-    borderWidth: 1
+    borderWidth: 0,
+    backgroundColor: '#DFFFD8',
+    borderRadius: 15,
+  },
+  text2: {
+    fontSize: 16,
+    paddingLeft: 20,
+    marginLeft: 30,
+    marginTop: 10,
+    paddingRight: 20,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderWidth: 0,
+    backgroundColor: '#B4E4FF',
+    borderRadius: 15,
   },
   buttons: {
     flex: 1, 
     textAlign: 'center', 
-    paddingVertical: 40
+    paddingVertical: 40,
+    fontSize: 17,
+    color: '#060047',
+    fontWeight: 'bold',
   }
 });

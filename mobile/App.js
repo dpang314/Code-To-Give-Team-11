@@ -3,6 +3,8 @@ import { FlatList, KeyboardAvoidingView, StyleSheet, Text, Image, TextInput, Vie
 import { io } from "socket.io-client";
 import Constants from "expo-constants";
 import { useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const { manifest } = Constants;
 
@@ -37,7 +39,8 @@ export default function App() {
         source={{ uri: 'https://wish.org/sites/default/files/styles/logo_large_default_1x/public/2020-09/MAW_Georgia_REV.png?itok=LUXDY-5M' }}
         style={{ width: 230, height: 65 }}
       />
-          <Text style={styles.headerText}>Coordinator Name</Text>
+          <Text style={styles.headerText}>
+          <Icon name="clipboard" size={25} color="#ffffff" /> &nbsp;Coordinator Name</Text>
         </View>
       <FlatList
         data={messages} 
@@ -69,24 +72,25 @@ export default function App() {
           socket.emit("send_message", { sender: socket.id, message: event.nativeEvent.text});
         }}
       />
-      <Text style={[styles.sendButton, {height: 40}, {flex: 1}, {alignItems: "center"}]}>Send</Text>
+      <Text style={[styles.sendButton, {height: 40}, {flex: 1}, {alignItems: "center"}]}>
+      <Icon name="send" size={18} color="#ffffff" /> &nbsp;Send</Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text style={[styles.buttons, {backgroundColor: '#3F979B'}]}>
-          Scan Document
+        <Icon name="file" size={18} color="#ffffff" />&nbsp;Scan Document
         </Text>
         <Text style={[styles.buttons, {backgroundColor: '#C0EEF2'}]}>
-          Call
+        <Icon name="phone" size={18} color="#ffffff" /> &nbsp;Call
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text style={[styles.buttons, {backgroundColor: '#C0EEF2'}, {
     borderBottomLeftRadius: 25}]}>
-          Video Chat
+          <Icon name="camera" size={18} color="#ffffff" /> &nbsp;Video Chat
         </Text>
         <Text style={[styles.buttons, {backgroundColor: '#3F979B'}, {
     borderBottomRightRadius: 25}]}>
-          View Calendar
+          <Icon name="calendar" size={18} color="#ffffff" /> &nbsp;View Calendar
         </Text>
       </View>
     </KeyboardAvoidingView>
